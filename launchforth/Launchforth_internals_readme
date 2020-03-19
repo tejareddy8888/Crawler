@@ -1,0 +1,67 @@
+projection of my view && Code part is below of this:
+
+-------------------------------------
+
+fetch the title from the below URL by giving input as 
+
+https://launchforth.io/api/v3/content/?content_type_name=project&category=adaptive-mobility
+
+Breif view about the content of the project: Mostly only what the page should contain.
+
+https://launchforth.io/api/v3/content/?project=267&containers_only=true
+
+Detailed view of the project:
+
+https://launchforth.io/api/v3/project/267/
+
+Details about the timeline of the project:
+
+https://launchforth.io/api/v3/project/266/timeline/
+
+Very Small introduction about the Category:
+
+https://launchforth.io/api/v3/category/health-and-wellness/
+
+Brief introduction about all projects with respective project:
+
+https://launchforth.io/api/v3/content/?content_type_name=project&category=health-and-wellness
+
+Details about the Challenges in the particular project: 
+
+https://launchforth.io/api/v3/challenge/234/
+
+
+Details about the Active and Inactive Entries:
+
+https://launchforth.io/api/v3/entry/?challenge=234&order_by=-post_count
+
+only Active Entries:
+https://launchforth.io/api/v3/entry/?challenge=234&order_by=-post_count&status=P
+
+Discussion can be heard using :
+https://launchforth.io/api/v3/topic/?content=71860
+
+URLs for project's challenge useful files:
+
+https://launchforth.io/api/v3/challenge/234/files/
+
+User Permissions about challenges description data (mostly unuseful):
+
+https://launchforth.io/api/v3/content/234/user_permissions/
+
+Winners of the Challenges can checked out here:
+
+https://launchforth.io/api/v3/entry/?challenge=234&order_by=winners_first&offset=0&status=P
+
+
+Challenge paricipants :
+
+https://launchforth.io/api/v3/entry/?challenge=234&order_by=-created&offset=0&status=P
+
+
+Valid Participants : 
+https://launchforth.io/api/v3/entry/?challenge=234&content_status=A&order_by=-created&offset=0&status=P
+
+Non-Valid Participants : 
+
+https://launchforth.io/api/v3/entry/?challenge=234&content_status=R&order_by=-created&offset=0&status=P
