@@ -1,6 +1,14 @@
 projection of my view && Code part is below of this:
 
 -------------------------------------
+Main Page :
+
+fetch whole table Category 
+
+fetch whole table about Handbook
+
+
+
 
 fetch the title from the below URL by giving input as 
 
@@ -13,6 +21,13 @@ https://launchforth.io/api/v3/content/?project=267&containers_only=true
 Detailed view of the project:
 
 https://launchforth.io/api/v3/project/267/
+
+	Key ::
+			Description is similar to Project's Handbook.
+
+About the Files of Project.
+
+https://launchforth.io/api/v3/project/266/files/
 
 Details about the timeline of the project:
 
@@ -36,6 +51,7 @@ Details about the Active and Inactive Entries:
 https://launchforth.io/api/v3/entry/?challenge=234&order_by=-post_count
 
 only Active Entries:
+
 https://launchforth.io/api/v3/entry/?challenge=234&order_by=-post_count&status=P
 
 Discussion can be heard using :
@@ -48,6 +64,10 @@ https://launchforth.io/api/v3/challenge/234/files/
 User Permissions about challenges description data (mostly unuseful):
 
 https://launchforth.io/api/v3/content/234/user_permissions/
+
+About the challenge tasks :
+
+https://launchforth.io/api/v3/challenge/234/
 
 Winners of the Challenges can checked out here:
 
@@ -65,3 +85,16 @@ https://launchforth.io/api/v3/entry/?challenge=234&content_status=A&order_by=-cr
 Non-Valid Participants : 
 
 https://launchforth.io/api/v3/entry/?challenge=234&content_status=R&order_by=-created&offset=0&status=P
+
+
+Blog Post about the Project :
+
+https://launchforth.io/api/v3/blog/2328/?status=P
+
+Brainstorm:
+
+https://launchforth.io/api/v3/idea/?brainstorm=434&page_size=5
+
+User details with ID :
+
+https://launchforth.io/api/v2/content/?content_type_name=entry&member=68711&order_by=-last_activity&page=2&show_private=false

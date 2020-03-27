@@ -6,6 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
 from scrapy.selector import Selector
 from launchforth_selenium.items import LaunchforthSeleniumItem
+import json
 
 class LaunchforthSelSpider(scrapy.Spider):
     name = 'launchforth_sel'
@@ -13,6 +14,7 @@ class LaunchforthSelSpider(scrapy.Spider):
     start_urls = ['https://www.launchforth.io/']
     item = LaunchforthSeleniumItem()
     datadict = {}
+    i = 0 
 
     def __init__(self):
         fopt = Options()
@@ -44,7 +46,7 @@ class LaunchforthSelSpider(scrapy.Spider):
             i=i+1
             self.datadict['Project'] = {'i':{}}
             self.datadict['Project'][i] = {'Name' : resp.text}
-        for i in range(1,3):
+        for i in range(1,5):
             project_element = driver.find_element_by_xpath("//*[@class='grid__content__item']["+str(i)+"]")
             project_element.click()
             driver.implicitly_wait(10)
@@ -57,6 +59,12 @@ class LaunchforthSelSpider(scrapy.Spider):
             self.datadict['Project'][i] = {'user_location' : user_location}
             project_description = driver.find_element_by_xpath("//*[@id='project-brief--brief-text']")
             self.datadict['Project'][i] = {'user_location' : project_description.text}
+            if self.i == 0 :
+                with open('data.json', 'w+') as js_file: 
+                    json.dump(self.datadict['Project'], js_file)
+            else:
+                with open('data.json', 'a+') as js_file: 
+                    json.dump(self.datadict['Project'], js_file)
             driver.back()
             driver.implicitly_wait(10)
             self.item['Project'] = self.datadict['Project']
@@ -67,7 +75,4 @@ class LaunchforthSelSpider(scrapy.Spider):
         resp = Selector(text=self.html)
 
         self.item['random'] = resp.xpath("/span").get()
-        yield{            
-            self.item['random'] ,
-            self.item['Project']
-        }
+        yield self.item

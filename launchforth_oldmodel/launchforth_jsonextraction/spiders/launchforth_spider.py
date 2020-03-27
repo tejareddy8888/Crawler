@@ -33,39 +33,6 @@ def jsonContentDateReplacer(v, j=None, k=None):
         j[k] = datetime.strptime(m.group(0), '%Y-%m-%dT%H:%M:%S')
     return 
 
-class LaunchforthSpiderSpider(Spider):
-    name = 'launchforth_spider'
-    ID_key = ''
-    def __init__(self,allowed_domains,start_urls,ID_key):
-        self.allowed_domains = allowed_domains
-        self.start_urls = start_urls
-        self.ID_key = ID_key
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        allowed_domains = crawler.settings['DOMAIN']
-        print(allowed_domains)
-        start_urls = [crawler.settings['PREFIX']+ crawler.settings['MONGODB_COLLECTION'] + '/']
-        ID_key = crawler.settings['ID_KEY']
-        return cls(allowed_domains,start_urls,ID_key)
-
-    def parse(self, response):
-        self.logger.info("crawled " + response.url,)
-        d = extract_json(response)
-        jsonContentDateReplacer(d)
-        results = d['results']
-        # set primary Id for each content dict object. Then pack them as an Item to store in MongoDB
-        for result in results:
-            if self.ID_key in result:
-                result[u'_id'] = result[self.ID_key]
-        item = LaunchforthJsonextractionItem()
-        item['content'] = results
-        yield item
-        # extract next url to crawl
-        if 'next' in d and d['next']:
-            yield Request(url=d['next'], callback=self.parse)
-    
-"""
 class LaunchforthSpiderSpider(scrapy.Spider):
     name = 'launchforth_spider'
     allowed_domains = ['launchforth.io']
@@ -145,4 +112,3 @@ class LaunchforthSpiderSpider(scrapy.Spider):
                 'Announcement' : temp['results'][i].get('is_announcement'),
                 'TimelineDetails' : temp['results'][i].get('snippet'),            
         }
-    """
