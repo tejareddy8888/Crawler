@@ -10,20 +10,10 @@ from urllib.parse import quote_plus
 #import dnspython
 
 class  Mongodbpipeline(object):
-
-    def __init__(self,MongoURI,MongoDbTableName):
-        self.MongoURI = MongoURI
-        self.collection_name = MongoDbTableName
-
-    @classmethod
-    def from_crawler(cls, crawler):
-        MongoURI = "mongodb+srv://sreddy:"+ quote_plus("Ziggo1020@") +"@cluster0-dp43v.mongodb.net/test"
-        MongoDbTableName = crawler.settings['MONGODB_COLLECTION']
-        return cls(MongoURI,MongoDbTableName)
-
+    table_name = "Project_details"
     def open_spider(self,spider):
         logging.warning("Trying to connect to MongoDB")
-        self.client = pymongo.MongoClient(self.MongoURI)
+        self.client = pymongo.MongoClient("mongodb+srv://sreddy:"+ quote_plus("Ziggo1020@") +"@cluster0-dp43v.mongodb.net/test")
         try:
             self.db = self.client["Launchforth"]
             logging.warning("Created Db with name Launchforth")
@@ -32,8 +22,7 @@ class  Mongodbpipeline(object):
 
     def process_item(self, item, spider):
         try:
-            self.db[self.collection_name].insert(item['content'])
-            logging.info("data inserted")
+            self.db[self.table_name].insert(item)
 
         except pymongo.errors.WriteError:
             logging.warning("Error while inserting Item") 

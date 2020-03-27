@@ -8,9 +8,6 @@ from datetime import datetime
 from csv import DictWriter
 from scrapy import Request
 from scrapy import Spider
-from scrapy.spidermiddlewares.httperror import HttpError
-from twisted.internet.error import DNSLookupError
-from twisted.internet.error import TimeoutError, TCPTimedOutError
 
 
 def extract_json(resp):
@@ -36,13 +33,13 @@ def jsonContentDateReplacer(v, j=None, k=None):
         j[k] = datetime.strptime(m.group(0), '%Y-%m-%dT%H:%M:%S')
     return 
 
-class LaunchforthSpiderSpider(scrapy.Spider):
+class LaunchforthSpiderSpider(Spider):
     name = 'launchforth_spider'
+    ID_key = ''
     def __init__(self,allowed_domains,start_urls,ID_key):
         self.allowed_domains = allowed_domains
         self.start_urls = start_urls
         self.ID_key = ID_key
-        self.i = 0
 
     @classmethod
     def from_crawler(cls, crawler):
@@ -57,39 +54,17 @@ class LaunchforthSpiderSpider(scrapy.Spider):
         d = extract_json(response)
         jsonContentDateReplacer(d)
         results = d['results']
-        item = LaunchforthJsonextractionItem()
+        # set primary Id for each content dict object. Then pack them as an Item to store in MongoDB
         for result in results:
-            if self.ID_key in result.keys():
+            if self.ID_key in result:
                 result[u'_id'] = result[self.ID_key]
+        item = LaunchforthJsonextractionItem()
         item['content'] = results
         yield item
         # extract next url to crawl
         if 'next' in d and d['next']:
-            yield Request(url=d['next'], callback=self.parse,errback=self.errback_httprequests,headers={('User-Agent', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0')})
+            yield Request(url=d['next'], callback=self.parse)
     
-    def errback_httprequests(self, failure):
-        # log all failures
-        self.logger.error(repr(failure))
-
-        # in case you want to do something special for some errors,
-        # you may need the failure's type:
-
-        if failure.check(HttpError):
-            # these exceptions come from HttpError spider middleware
-            # you can get the non-200 response
-            response = failure.value.response
-            self.logger.error('HttpError on %s', response.url)
-
-        elif failure.check(DNSLookupError):
-            # this is the original request
-            request = failure.request
-            self.logger.error('DNSLookupError on %s', request.url)
-
-        elif failure.check(TimeoutError, TCPTimedOutError):
-            request = failure.request
-            self.logger.error('TimeoutError on %s', request.url)
-    
-
 """
 class LaunchforthSpiderSpider(scrapy.Spider):
     name = 'launchforth_spider'
@@ -113,7 +88,7 @@ class LaunchforthSpiderSpider(scrapy.Spider):
         item = LaunchforthJsonextractionItem()
         item['content'] = temp['results']
 
-        for i in range(0,temp['count']):
+        for i in range(0,1):
             link = self.prefix+'project/'+str(item['content'][i]['object_id'])+'/'
             self.logger.info("extracting project"+str(i))
             print(item['content'][i]['object_id'])
@@ -171,4 +146,3 @@ class LaunchforthSpiderSpider(scrapy.Spider):
                 'TimelineDetails' : temp['results'][i].get('snippet'),            
         }
     """
-    

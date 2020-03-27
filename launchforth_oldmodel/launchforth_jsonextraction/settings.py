@@ -15,14 +15,13 @@ SPIDER_MODULES = ['launchforth_jsonextraction.spiders']
 NEWSPIDER_MODULE = 'launchforth_jsonextraction.spiders'
 
 PREFIX = 'https://launchforth.io/api/v3/'
-DOMAIN = ''
+DOMAIN = 'launchforth.io'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 #USER_AGENT = 'launchforth_jsonextraction (+http://www.yourdomain.com)'
 USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0'
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
-RETRY_ENABLED = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 #CONCURRENT_REQUESTS = 32
@@ -49,10 +48,9 @@ RETRY_ENABLED = False
 
 # Enable or disable spider middlewares
 # See https://docs.scrapy.org/en/latest/topics/spider-middleware.html
-SPIDER_MIDDLEWARES = {
-   'scrapy.spidermiddlewares.httperror.HttpErrorMiddleware':100,
-   'launchforth_jsonextraction.middlewares.LaunchforthJsonextractionSpiderMiddleware': 543
-}
+#SPIDER_MIDDLEWARES = {
+#    'launchforth_jsonextraction.middlewares.LaunchforthJsonextractionSpiderMiddleware': 543,
+#}
 
 # Enable or disable downloader middlewares
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
